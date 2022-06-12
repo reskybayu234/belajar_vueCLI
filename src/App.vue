@@ -2,8 +2,15 @@
   <div id="app">
     <header-component v-on:ganti-hero="gantiHero"></header-component>
     <main>
-      <hero-component v-bind:heros="hero1"></hero-component>
-      <hero-component v-bind:heros="hero2"></hero-component>
+      <p>Hero-hero terbaik minggu ini</p>
+      <article v-if="!selectedHero">
+        <div v-for="(item, index) in hero" :key="item.id">
+          <hero-component v-bind:heros="item" :index="index"></hero-component>
+        </div>
+      </article>
+      <article v-else>
+        <hero-component v-bind:heros="selectedHero" :index="0"></hero-component>
+      </article>
     </main>
     <footer-component></footer-component>
   </div>
@@ -22,23 +29,36 @@ export default {
   name: "App",
   data: function () {
     return {
-      hero1: {
-        nama: "Aurora",
-        type: "mage",
-        gambar: "aurora.jpg",
-      },
-      hero2: {
-        nama: "Zilong",
-        type: "Fighter",
-        gambar: "zilong.jpg",
-      },
+      hero: [
+        {
+          id: 1,
+          nama: "Akai",
+          type: "Tank",
+          gambar: "akai.jpg",
+        },
+        {
+          id: 2,
+          nama: "Zilong",
+          type: "Fighter",
+          gambar: "zilong.jpg",
+        },
+        { id: 3, nama: "Aurora", type: "Mage", gambar: "aurora.jpg" },
+        {
+          id: 4,
+          nama: "Bruno",
+          type: "Marksman",
+          gambar: "bruno.jpg",
+        },
+      ],
+      selectedHero: "",
     };
   },
   methods: {
     gantiHero: function () {
-      this.hero.nama = "Zilong";
-      this.hero.type = "Fighter";
-      this.hero.gambar = "zilong.jpg";
+      this.selectedHero = this.randomHero();
+    },
+    randomHero: function () {
+      return this.hero[Math.floor(Math.random() * this.hero.length)];
     },
   },
 };
@@ -56,5 +76,15 @@ export default {
 main img {
   width: 80px;
   border: 1px solid #ccc;
+}
+
+article {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+main {
+  text-align: center;
 }
 </style>
