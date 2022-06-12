@@ -1,16 +1,9 @@
 <template>
   <div id="app">
-    <header-component></header-component>
+    <header-component v-on:ganti-hero="gantiHero"></header-component>
     <main>
-      <ul>
-        <li>
-          <img :src="gambar" alt="" />
-          <p>{{ hero.nama }}</p>
-          <p>
-            Jenis Hero : <em>{{ hero.type }}</em>
-          </p>
-        </li>
-      </ul>
+      <hero-component v-bind:heros="hero1"></hero-component>
+      <hero-component v-bind:heros="hero2"></hero-component>
     </main>
     <footer-component></footer-component>
   </div>
@@ -19,18 +12,25 @@
 <script>
 import HeaderItem from "./components/Header-com.vue";
 import FooterItem from "./components/Footer-com.vue";
+import HeroItem from "./components/Hero-com.vue";
 export default {
   components: {
     "header-component": HeaderItem,
     "footer-component": FooterItem,
+    "hero-component": HeroItem,
   },
   name: "App",
   data: function () {
     return {
-      hero: {
+      hero1: {
         nama: "Aurora",
         type: "mage",
         gambar: "aurora.jpg",
+      },
+      hero2: {
+        nama: "Zilong",
+        type: "Fighter",
+        gambar: "zilong.jpg",
       },
     };
   },
@@ -39,11 +39,6 @@ export default {
       this.hero.nama = "Zilong";
       this.hero.type = "Fighter";
       this.hero.gambar = "zilong.jpg";
-    },
-  },
-  computed: {
-    gambar: function () {
-      return require("./assets/hero/" + this.hero.gambar);
     },
   },
 };
